@@ -89,26 +89,17 @@ public class AlcoholService {
 
     //@Override
     public List<Alcohol> getAllAlcohols() {
-        List<Alcohol> Alcohols = new ArrayList<Alcohol>();
+        List<Alcohol> listOfAlcohols = new ArrayList<Alcohol>();
 
         try {
             ResultSet rs = getAllAlcoholsStmt.executeQuery();
 
-            while (rs.next()) {
-                Alcohol p = new Alcohol();
-                p.setId(rs.getInt("id"));
-                p.setName(rs.getString("name"));
-                p.setProducer(rs.getString("producer"));
-                p.setYearOfProduction(rs.getInt("production_year"));
-                p.setType(rs.getString("type"));
-                p.setVolt(rs.getFloat("volt"));
-                Alcohols.add(p);
-            }
+            listOfAlcohols = getAllAlcoholsFromResultSet(rs);
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return Alcohols;
+        return listOfAlcohols;
     }
 
     //@Override
@@ -132,7 +123,6 @@ public class AlcoholService {
                 connection.rollback();
             } catch (SQLException e) {
                 e.printStackTrace();
-                //!!!! ALARM
             }
         }
     }
@@ -146,20 +136,12 @@ public class AlcoholService {
         try {
             getAllAlcoholsByParam = connection.prepareStatement(
                     "SELECT id, name, producer, production_year, type, volt "
-                    +"FROM Alcohol where "+parameter+" = ?"
+                    +"FROM Alcohol where "
+                            +parameter+" = ?"
             );
             getAllAlcoholsByParam.setString(1, parameterValue);
             ResultSet rs = getAllAlcoholsByParam.executeQuery();
-            while (rs.next()) {
-                Alcohol p = new Alcohol();
-                p.setId(rs.getInt("id"));
-                p.setName(rs.getString("name"));
-                p.setProducer(rs.getString("producer"));
-                p.setYearOfProduction(rs.getInt("production_year"));
-                p.setType(rs.getString("type"));
-                p.setVolt(rs.getFloat("volt"));
-                listOfAlcohols.add(p);
-            }
+            listOfAlcohols = getAllAlcoholsFromResultSet(rs);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -168,14 +150,23 @@ public class AlcoholService {
 
     }
 
-    public static void main(String[] args) {
-        try {
-            AlcoholService test = new AlcoholService();
-         //   test.addAlcohol(new Alcohol("Murphy's Stout", "Murphy", 2018, "piwo", 4.27f));
-            System.out.println(test.getAllAlcohols().get(0).getName());
-            System.out.println(test.getAllAlcoholsByType("piwo").get(0).getName());
-        } catch (Exception e) {
-            e.printStackTrace();
+    private Alcohol getAlcoholFromResult(ResultSet rs) throws SQLException{
+        Alcohol p = new Alcohol();
+        p.setId(rs.getInt("id"));
+        p.setName(rs.getString("name"));
+        p.setProducer(rs.getString("producer"));
+        p.setYearOfProduction(rs.getInt("production_year"));
+        p.setType(rs.getString("type"));
+        p.setVolt(rs.getFloat("volt"));
+        return p;
+    }
+
+    private List<Alcohol> getAllAlcoholsFromResultSet(ResultSet rs) throws SQLException{
+        List<Alcohol> allAlcohols = new LinkedList<>();
+        while (rs.next()){
+            Alcohol next = getAlcoholFromResult(rs);
+            allAlcohols.add(next);
         }
+        return allAlcohols;
     }
 }
