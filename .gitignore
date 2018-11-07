@@ -1,6 +1,6 @@
 # Compiled class file
 *.class
-
+.Rhistory
 # Log file
 *.log
 
