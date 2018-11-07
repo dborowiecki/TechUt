@@ -32,7 +32,8 @@ public class AlcoholService {
     private PreparedStatement addAlcoholStmt;
     private PreparedStatement deleteAllAlcoholsStmt;
     private PreparedStatement getAllAlcoholsStmt;
-    
+    private PreparedStatement getAllAlcoholsByParam;
+
     public AlcoholService() throws SQLException{
         try {
             connection = DriverManager.getConnection(url);
@@ -137,11 +138,18 @@ public class AlcoholService {
     }
 
     public List<Alcohol> getAllAlcoholsByType(String type){
+        return getAllAlcoholsByParameter("type", type);
+    }
+
+    public List<Alcohol> getAllAlcoholsByParameter(String parameter, String parameterValue){
         List<Alcohol> listOfAlcohols = new LinkedList<>();
         try {
-            PreparedStatement getAllAlcoholsByType = connection.prepareStatement("SELECT id, name, producer, production_year, type, volt FROM Alcohol where type = ?");
-            getAllAlcoholsByType.setString(1, type);
-            ResultSet rs = getAllAlcoholsByType.executeQuery();
+            getAllAlcoholsByParam = connection.prepareStatement(
+                    "SELECT id, name, producer, production_year, type, volt "
+                    +"FROM Alcohol where "+parameter+" = ?"
+            );
+            getAllAlcoholsByParam.setString(1, parameterValue);
+            ResultSet rs = getAllAlcoholsByParam.executeQuery();
             while (rs.next()) {
                 Alcohol p = new Alcohol();
                 p.setId(rs.getInt("id"));
@@ -159,9 +167,6 @@ public class AlcoholService {
         return listOfAlcohols;
 
     }
-
-    public List<Alcohol> getAllAlcoholsByParameter(String parameter, String parameterValue){
-   
 
     public static void main(String[] args) {
         try {
