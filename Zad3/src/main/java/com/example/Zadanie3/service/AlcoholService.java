@@ -9,8 +9,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
-
+//TODO Różne metody typu szukaj
+//TODO METODA TRANZAKCYJNA (Przynajmniej jedna)
 public class AlcoholService {
     public Connection getConnection() {
         return connection;
@@ -113,12 +115,12 @@ public class AlcoholService {
 
         try {
             connection.setAutoCommit(false);
-            for (Alcohol Alcohol : Alcohols) {
-                addAlcoholStmt.setString(1, Alcohol.getName());
-                addAlcoholStmt.setString(2, Alcohol.getProducer());
-                addAlcoholStmt.setInt(3, Alcohol.getYearOfProduction());
-                addAlcoholStmt.setString(4, Alcohol.getType());
-                addAlcoholStmt.setFloat(5, Alcohol.getVolt());
+            for (Alcohol alcohol : Alcohols) {
+                addAlcoholStmt.setString(1, alcohol.getName());
+                addAlcoholStmt.setString(2, alcohol.getProducer());
+                addAlcoholStmt.setInt(3, alcohol.getYearOfProduction());
+                addAlcoholStmt.setString(4, alcohol.getType());
+                addAlcoholStmt.setFloat(5, alcohol.getVolt());
                 addAlcoholStmt.executeUpdate();
             }
             connection.commit();
@@ -134,11 +136,39 @@ public class AlcoholService {
         }
     }
 
+    public List<Alcohol> getAllAlcoholsByType(String type){
+        List<Alcohol> listOfAlcohols = new LinkedList<>();
+        try {
+            PreparedStatement getAllAlcoholsByType = connection.prepareStatement("SELECT id, name, producer, production_year, type, volt FROM Alcohol where type = ?");
+            getAllAlcoholsByType.setString(1, type);
+            ResultSet rs = getAllAlcoholsByType.executeQuery();
+            while (rs.next()) {
+                Alcohol p = new Alcohol();
+                p.setId(rs.getInt("id"));
+                p.setName(rs.getString("name"));
+                p.setProducer(rs.getString("producer"));
+                p.setYearOfProduction(rs.getInt("production_year"));
+                p.setType(rs.getString("type"));
+                p.setVolt(rs.getFloat("volt"));
+                listOfAlcohols.add(p);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listOfAlcohols;
+
+    }
+
+    public List<Alcohol> getAllAlcoholsByParameter(String parameter, String parameterValue){
+   
+
     public static void main(String[] args) {
         try {
             AlcoholService test = new AlcoholService();
-            //test.addAlcohol(new Alcohol("Murphy's Stout", "Murphy", 2018, "piwo", 4.27f));
-            System.out.println(test.getAllAlcohols());
+         //   test.addAlcohol(new Alcohol("Murphy's Stout", "Murphy", 2018, "piwo", 4.27f));
+            System.out.println(test.getAllAlcohols().get(0).getName());
+            System.out.println(test.getAllAlcoholsByType("piwo").get(0).getName());
         } catch (Exception e) {
             e.printStackTrace();
         }
