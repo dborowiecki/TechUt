@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="jdbcdemo" />
+        <module name="ProjektUT" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="jdbcdemo" target="1.8" />
+      <module name="ProjektUT" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

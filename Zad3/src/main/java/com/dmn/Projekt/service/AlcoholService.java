@@ -34,7 +34,7 @@ public class AlcoholService {
     private PreparedStatement getAllAlcoholsStmt;
     private PreparedStatement getAllAlcoholsByParam;
 
-    public AlcoholService() throws SQLException{
+    public AlcoholService(){
         try {
             connection = DriverManager.getConnection(url);
             statement = connection.createStatement();
@@ -48,8 +48,9 @@ public class AlcoholService {
                 }
             }
 
-            if (!tableExists)
+            if (!tableExists) {
                 statement.executeUpdate(createTableAlcohol);
+            }
 
             addAlcoholStmt        = connection.prepareStatement("INSERT INTO Alcohol (name, producer, production_year, type, volt) VALUES (?, ?, ?, ?, ?)");
             deleteAllAlcoholsStmt = connection.prepareStatement("DELETE FROM Alcohol");
@@ -69,7 +70,6 @@ public class AlcoholService {
         }
     }
 
-    //@Override
     public int addAlcohol(Alcohol Alcohol) {
         int count = 0;
         try {
@@ -87,7 +87,6 @@ public class AlcoholService {
         return count;
     }
 
-    //@Override
     public List<Alcohol> getAllAlcohols() {
         List<Alcohol> listOfAlcohols = new ArrayList<Alcohol>();
 
@@ -102,7 +101,6 @@ public class AlcoholService {
         return listOfAlcohols;
     }
 
-    //@Override
     public void addAllAlcohols(List<Alcohol> Alcohols) {
 
         try {
