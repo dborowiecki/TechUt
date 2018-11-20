@@ -1,4 +1,4 @@
-import com.example.Zadanie3.service.AlcoholService;
+import com.dmn.Zadanie3.service.AlcoholService;
 
 public class Main {public static void main(String[] args) {
     try {

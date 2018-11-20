@@ -1,4 +1,4 @@
-package com.example.Zadanie3.domain;
+package com.dmn.Zadanie3.domain;
 
 public class Alcohol {
     private long id;

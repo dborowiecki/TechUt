@@ -1,6 +1,6 @@
-package com.example.Zadanie3.service;
+package com.dmn.Zadanie3.service;
 
-import com.example.Zadanie3.domain.Alcohol;
+import com.dmn.Zadanie3.domain.Alcohol;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
