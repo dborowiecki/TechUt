@@ -1,6 +1,6 @@
-package com.dmn.Zadanie3.service;
+package com.dmn.Projekt.service;
 
-import com.dmn.Zadanie3.domain.Alcohol;
+import com.dmn.Projekt.domain.Alcohol;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
