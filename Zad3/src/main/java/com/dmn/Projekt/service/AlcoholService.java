@@ -11,12 +11,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-//TODO Różne metody typu szukaj
-//TODO METODA TRANZAKCYJNA (Przynajmniej jedna)
+
 public class AlcoholService {
-    public Connection getConnection() {
-        return connection;
-    }
 
     Connection connection;
     private String url = "jdbc:hsqldb:hsql://localhost/workdb";
@@ -39,18 +35,7 @@ public class AlcoholService {
             connection = DriverManager.getConnection(url);
             statement = connection.createStatement();
 
-            ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
-            boolean tableExists = false;
-            while (rs.next()) {
-                if ("Alcohol".equalsIgnoreCase(rs.getString("TABLE_NAME"))) {
-                    tableExists = true;
-                    break;
-                }
-            }
-
-            if (!tableExists) {
-                statement.executeUpdate(createTableAlcohol);
-            }
+            createTableIfNotExisting();
 
             addAlcoholStmt        = connection.prepareStatement("INSERT INTO Alcohol (name, producer, production_year, type, volt) VALUES (?, ?, ?, ?, ?)");
             deleteAllAlcoholsStmt = connection.prepareStatement("DELETE FROM Alcohol");
@@ -60,6 +45,21 @@ public class AlcoholService {
             e.printStackTrace();
         }
 
+    }
+
+    public void createTableIfNotExisting() throws SQLException{
+        ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
+        boolean tableExists = false;
+        while (rs.next()) {
+            if ("Alcohol".equalsIgnoreCase(rs.getString("TABLE_NAME"))) {
+                tableExists = true;
+                break;
+            }
+        }
+
+        if (!tableExists) {
+            statement.executeUpdate(createTableAlcohol);
+        }
     }
 
     void clearAlcohols() {
@@ -166,5 +166,9 @@ public class AlcoholService {
             allAlcohols.add(next);
         }
         return allAlcohols;
+    }
+
+    public Connection getConnection() {
+        return connection;
     }
 }
