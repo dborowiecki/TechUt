@@ -29,7 +29,8 @@ public class AlcoholService {
     private PreparedStatement deleteAllAlcoholsStmt;
     private PreparedStatement getAllAlcoholsStmt;
     private PreparedStatement getAllAlcoholsByParam;
-
+    public static final int ORDER_ASC = 0;
+    public static final int ORDER_DESC = 1;
     public AlcoholService(){
         try {
             connection = DriverManager.getConnection(url);
@@ -62,7 +63,7 @@ public class AlcoholService {
         }
     }
 
-    void clearAlcohols() {
+    public void clearAlcohols() {
         try {
             deleteAllAlcoholsStmt.executeUpdate();
         } catch (SQLException e) {
@@ -147,7 +148,26 @@ public class AlcoholService {
         return listOfAlcohols;
 
     }
+    public List<Alcohol> getAlcoholsByVolt(float voltMin, float voltMax, int order){
+        List<Alcohol> listOfAlcohols = new LinkedList<>();
+        try {
+            getAllAlcoholsByParam = connection.prepareStatement(
+                         "SELECT id, name, producer, production_year, type, volt "
+                            +"FROM Alcohol where "
+                            +"volt > ?"
+                            +" and volt < ?"
+                            +" order by volt "+ (order == 0 ? "ASC" : "DESC")
+            );
+            getAllAlcoholsByParam.setFloat(1, voltMin);
+            getAllAlcoholsByParam.setFloat(2, voltMax);
+            ResultSet rs = getAllAlcoholsByParam.executeQuery();
+            listOfAlcohols = getAllAlcoholsFromResultSet(rs);
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listOfAlcohols;
+    }
     private Alcohol getAlcoholFromResult(ResultSet rs) throws SQLException{
         Alcohol p = new Alcohol();
         p.setId(rs.getInt("id"));
