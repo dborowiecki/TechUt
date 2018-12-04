@@ -1,6 +1,8 @@
 package com.example.shdemo.service;
 
 import com.example.shdemo.domain.Alcohol;
+import com.example.shdemo.domain.Car;
+import com.example.shdemo.domain.Person;
 import com.example.shdemo.domain.Producer;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,7 @@ import java.util.List;
 
 @Component
 @Transactional
-public class DistributionManager implements DistributionManagerI {
+public class DistributionManager implements DistributionManagerI{
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -30,18 +32,27 @@ public class DistributionManager implements DistributionManagerI {
         sessionFactory.getCurrentSession().persist(producer);
     }
 
+    @SuppressWarnings("unchecked")
     public List<Producer> getAllProducers(){
-
-        return null;
+        return sessionFactory.getCurrentSession().getNamedQuery("producer.all").list();
     }
 
     public void deleteProducer(Producer producer){
+        producer = (Producer) sessionFactory.getCurrentSession().get(Person.class,
+                producer.getId());
 
+        // lazy loading here
+        for (Alcohol alcohol: producer.getAlcohols()) {
+            alcohol.setAvailability(false);
+            sessionFactory.getCurrentSession().update(alcohol);
+        }
+        sessionFactory.getCurrentSession().delete(producer);
     }
 
     public Producer findProducerByCode(String code){
-
-        return null;
+        return (Producer) sessionFactory.getCurrentSession()
+                .getNamedQuery("person.byCode")
+                .setString("code", code).uniqueResult();
     }
 
     public Long addNewAlcohol(Alcohol alcohol){
