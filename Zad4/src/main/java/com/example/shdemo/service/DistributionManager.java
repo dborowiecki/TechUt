@@ -27,7 +27,7 @@ public class DistributionManager implements DistributionManagerI{
         this.sessionFactory = sessionFactory;
     }
 
-
+    @Override
     public void addProducer(Producer producer){
         producer.setId(null);
         sessionFactory.getCurrentSession().persist(producer);
@@ -38,6 +38,7 @@ public class DistributionManager implements DistributionManagerI{
         return sessionFactory.getCurrentSession().getNamedQuery("producer.all").list();
     }
 
+    @Override
     public void deleteProducer(Producer producer){
         producer = (Producer) sessionFactory.getCurrentSession().get(Person.class,
                 producer.getId());
@@ -49,28 +50,29 @@ public class DistributionManager implements DistributionManagerI{
         }
         sessionFactory.getCurrentSession().delete(producer);
     }
-
+    @Override
     public Producer findProducerByCode(String code){
         return (Producer) sessionFactory.getCurrentSession()
                 .getNamedQuery("producer.byCode")
                 .setString("code", code).uniqueResult();
     }
-
+    @Override
     public Long addNewAlcohol(Alcohol alcohol){
         alcohol.setId(null);
         return (Long) sessionFactory.getCurrentSession().save(alcohol);
     }
 
-
+    @Override
     @SuppressWarnings("unchecked")
     public List<Alcohol> getAvailableAlcohols(){
         return sessionFactory.getCurrentSession().getNamedQuery("alcohol.availability")
                 .list();
     }
+    @Override
     public Alcohol findAlcoholById(Long id){
         return (Alcohol) sessionFactory.getCurrentSession().get(Alcohol.class, id);
     }
-
+    @Override
     public List<Alcohol> getProducersAlcohols(Producer producer){
         producer = (Producer) sessionFactory.getCurrentSession().get(Person.class,
                 producer.getId());
@@ -78,7 +80,7 @@ public class DistributionManager implements DistributionManagerI{
         List<Alcohol> alcohols = new ArrayList<Alcohol>(producer.getAlcohols());
         return alcohols;
     }
-
+    @Override
     public void removeProducerAlcohols(Long producerId, Long alcoholId){
         Producer producer = (Producer) sessionFactory.getCurrentSession().get(
                 Producer.class, producerId);
