@@ -1,7 +1,6 @@
 package com.example.shdemo.service;
 
 import com.example.shdemo.domain.Alcohol;
-import com.example.shdemo.domain.Person;
 import com.example.shdemo.domain.Producer;
 
 import java.util.List;

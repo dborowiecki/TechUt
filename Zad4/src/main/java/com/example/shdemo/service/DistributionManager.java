@@ -1,8 +1,6 @@
 package com.example.shdemo.service;
 
 import com.example.shdemo.domain.Alcohol;
-import com.example.shdemo.domain.Car;
-import com.example.shdemo.domain.Person;
 import com.example.shdemo.domain.Producer;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +38,7 @@ public class DistributionManager implements DistributionManagerI{
 
     @Override
     public void deleteProducer(Producer producer){
-        producer = (Producer) sessionFactory.getCurrentSession().get(Person.class,
+        producer = (Producer) sessionFactory.getCurrentSession().get(Producer.class,
                 producer.getId());
 
         // lazy loading here
@@ -74,7 +72,7 @@ public class DistributionManager implements DistributionManagerI{
     }
     @Override
     public List<Alcohol> getProducersAlcohols(Producer producer){
-        producer = (Producer) sessionFactory.getCurrentSession().get(Person.class,
+        producer = (Producer) sessionFactory.getCurrentSession().get(Producer.class,
                 producer.getId());
 
         List<Alcohol> alcohols = new ArrayList<Alcohol>(producer.getAlcohols());
