@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -51,31 +52,40 @@ public class DistributionManager implements DistributionManagerI{
 
     public Producer findProducerByCode(String code){
         return (Producer) sessionFactory.getCurrentSession()
-                .getNamedQuery("person.byCode")
+                .getNamedQuery("producer.byCode")
                 .setString("code", code).uniqueResult();
     }
 
     public Long addNewAlcohol(Alcohol alcohol){
-
-        return null;
+        alcohol.setId(null);
+        return (Long) sessionFactory.getCurrentSession().save(alcohol);
     }
 
-    public List<Alcohol> getAvailableAlcohols(){
 
-        return null;
+    @SuppressWarnings("unchecked")
+    public List<Alcohol> getAvailableAlcohols(){
+        return sessionFactory.getCurrentSession().getNamedQuery("alcohol.availability")
+                .list();
     }
     public Alcohol findAlcoholById(Long id){
-
-        return null;
+        return (Alcohol) sessionFactory.getCurrentSession().get(Alcohol.class, id);
     }
 
     public List<Alcohol> getProducersAlcohols(Producer producer){
+        producer = (Producer) sessionFactory.getCurrentSession().get(Person.class,
+                producer.getId());
 
-        return null;
+        List<Alcohol> alcohols = new ArrayList<Alcohol>(producer.getAlcohols());
+        return alcohols;
     }
 
     public void removeProducerAlcohols(Long producerId, Long alcoholId){
-
+        Producer producer = (Producer) sessionFactory.getCurrentSession().get(
+                Producer.class, producerId);
+        Alcohol alcohol = (Alcohol) sessionFactory.getCurrentSession()
+                .get(Alcohol.class, alcoholId);
+        alcohol.setAvailability(true);
+        producer.getAlcohols().add(alcohol);
     }
 
 }
