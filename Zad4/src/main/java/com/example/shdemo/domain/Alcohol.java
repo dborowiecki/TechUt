@@ -10,7 +10,6 @@ public class Alcohol {
 
 	private long id;
 	private String name;
-	private String producer;
 	private int productionYear;
 	private String type;
 	private float volt;
@@ -32,14 +31,6 @@ public class Alcohol {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getProducer() {
-		return producer;
-	}
-
-	public void setProducer(String producer) {
-		this.producer = producer;
 	}
 
 	public int getYearOfProduction() {
