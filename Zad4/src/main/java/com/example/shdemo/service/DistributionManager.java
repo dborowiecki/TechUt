@@ -59,10 +59,18 @@ public class DistributionManager implements DistributionManagerI{
         alcohol.setId(null);
         return (Long) sessionFactory.getCurrentSession().save(alcohol);
     }
+    @Override
+    public void deleteAlcohol(Alcohol alcohol){
+        alcohol = (Alcohol) sessionFactory.getCurrentSession().get(Producer.class,
+                alcohol.getId());
+
+        sessionFactory.getCurrentSession().delete(alcohol);
+    }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<Alcohol> getAvailableAlcohols(){
+
         return sessionFactory.getCurrentSession().getNamedQuery("alcohol.availability")
                 .list();
     }

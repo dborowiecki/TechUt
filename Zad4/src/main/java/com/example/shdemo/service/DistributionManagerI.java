@@ -18,5 +18,6 @@ public interface DistributionManagerI {
 
 	List<Alcohol> getProducersAlcohols(Producer producer);
 	void removeProducerAlcohols(Long producerId, Long alcoholId);
+	void deleteAlcohol(Alcohol a);
 
 }

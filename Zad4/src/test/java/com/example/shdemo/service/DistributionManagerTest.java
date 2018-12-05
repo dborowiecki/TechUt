@@ -1,5 +1,6 @@
 package com.example.shdemo.service;
 
+import com.example.shdemo.domain.Alcohol;
 import com.example.shdemo.domain.Producer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,11 +27,46 @@ public class DistributionManagerTest {
     private final String COMPANY_NAME_1 = "Test company";
     private final String CODE_1 = "c0de";
 
+    private final String ALCOHOL_NAME_1 = "Special";
+    private final String ALCOHOL_TYPE_1 = "piwo";
+    private final float ALCOHOL_VOLT_1 = 3.52f;
+    private final boolean ALCOHOL_AVAILABILITY_1 = true;
+    private final int ALCOHOL_YEAR_OF_PRODUCTION_1 = 1990;
+
+
     @Test
     public void distributionManagerTest() {
         assertNotNull(distributionManager);
     }
 
+    @Test
+    public void getAlcoholTest(){
+        Alcohol a = new Alcohol();
+        a.setName(ALCOHOL_NAME_1);
+        a.setType(ALCOHOL_TYPE_1);
+        a.setVolt(ALCOHOL_VOLT_1);
+        a.setAvailability(ALCOHOL_AVAILABILITY_1);
+        a.setYearOfProduction(ALCOHOL_YEAR_OF_PRODUCTION_1);
+
+        List<Alcohol> alcohols = distributionManager.getAvailableAlcohols();
+        for (Alcohol alcohol: alcohols) {
+            if (alcohol.getName().equals(ALCOHOL_NAME_1)) {
+                distributionManager.deleteAlcohol(alcohol);
+            }
+        }
+
+        distributionManager.addNewAlcohol(a);
+
+        Alcohol retrived = new Alcohol();
+
+        alcohols = distributionManager.getAvailableAlcohols();
+        for (Alcohol alcohol: alcohols) {
+            if (alcohol.getName().equals(ALCOHOL_NAME_1)) {
+                retrived = alcohol;
+            }
+        }
+        assertEquals(ALCOHOL_NAME_1, retrived.getName());
+    }
 
     @Test
     public void addProducentCheck() {

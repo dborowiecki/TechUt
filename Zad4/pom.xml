@@ -200,7 +200,13 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>3.0.6.RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
 	<!-- Additional useful plugin's configuration -->
 	<build>
