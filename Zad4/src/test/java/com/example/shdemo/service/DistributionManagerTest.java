@@ -13,8 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/beans.xml" })
@@ -67,6 +66,9 @@ public class DistributionManagerTest {
             }
         }
         assertEquals(ALCOHOL_NAME_1, retrived.getName());
+        assertEquals(ALCOHOL_TYPE_1, retrived.getType());
+        assertEquals(ALCOHOL_AVAILABILITY_1, retrived.getAvailability());
+        assertEquals(ALCOHOL_YEAR_OF_PRODUCTION_1, retrived.getYearOfProduction());
     }
 
     @Test
@@ -140,7 +142,9 @@ public class DistributionManagerTest {
         l.add(a);
         p.setAlcohols(l);
         List<Alcohol> retrived = distributionManager.getProducersAlcohols(p);
+
         assertEquals(l.get(0), retrived.get(0));
+        assertTrue(l.get(0).getAvailability());
     }
 
 
