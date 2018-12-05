@@ -69,6 +69,35 @@ public class DistributionManagerTest {
     }
 
     @Test
+    public void getAlcoholById(){
+        Alcohol a = new Alcohol();
+        a.setName(ALCOHOL_NAME_1);
+        a.setType(ALCOHOL_TYPE_1);
+        a.setVolt(ALCOHOL_VOLT_1);
+        a.setAvailability(ALCOHOL_AVAILABILITY_1);
+        a.setYearOfProduction(ALCOHOL_YEAR_OF_PRODUCTION_1);
+
+        List<Alcohol> alcohols = distributionManager.getAvailableAlcohols();
+        for (Alcohol alcohol: alcohols) {
+            if (alcohol.getName().equals(ALCOHOL_NAME_1)) {
+                distributionManager.deleteAlcohol(alcohol);
+            }
+        }
+
+        distributionManager.addNewAlcohol(a);
+        Long alcoholId = a.getId();
+        Alcohol retrived = new Alcohol();
+
+        alcohols = distributionManager.getAvailableAlcohols();
+        for (Alcohol alcohol: alcohols) {
+            if (alcohol.getName().equals(ALCOHOL_NAME_1)) {
+                retrived = alcohol;
+            }
+        }
+        assertEquals(alcoholId, retrived.getId());
+    }
+
+    @Test
     public void addProducentCheck() {
         List<Producer> retrivedProducers = distributionManager.getAllProducers();
 
