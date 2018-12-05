@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -69,7 +70,7 @@ public class DistributionManagerTest {
     }
 
     @Test
-    public void getAlcoholById(){
+    public void getAlcoholByIdTest(){
         Alcohol a = new Alcohol();
         a.setName(ALCOHOL_NAME_1);
         a.setType(ALCOHOL_TYPE_1);
@@ -98,7 +99,7 @@ public class DistributionManagerTest {
     }
 
     @Test
-    public void addProducentCheck() {
+    public void addProducentTest() {
         List<Producer> retrivedProducers = distributionManager.getAllProducers();
 
         for (Producer producer: retrivedProducers) {
@@ -118,4 +119,29 @@ public class DistributionManagerTest {
         assertEquals(COMPANY_NAME_1, retrivedProducer.getCompanyName());
         assertEquals(CODE_1, retrivedProducer.getCode());
     }
+
+    @Test
+    public void createProducerAlcoholTest(){
+        Alcohol a = new Alcohol();
+        a.setName(ALCOHOL_NAME_1);
+        a.setType(ALCOHOL_TYPE_1);
+        a.setVolt(ALCOHOL_VOLT_1);
+        a.setAvailability(ALCOHOL_AVAILABILITY_1);
+        a.setYearOfProduction(ALCOHOL_YEAR_OF_PRODUCTION_1);
+
+        Producer p = new Producer();
+        p.setCode(CODE_1);
+        p.setCompanyName(COMPANY_NAME_1);
+
+        distributionManager.addNewAlcohol(a);
+        distributionManager.addProducer(p);
+
+        List<Alcohol> l = new ArrayList<Alcohol>();
+        l.add(a);
+        p.setAlcohols(l);
+        List<Alcohol> retrived = distributionManager.getProducersAlcohols(p);
+        assertEquals(l.get(0), retrived.get(0));
+    }
+
+
 }
