@@ -1,6 +1,7 @@
 package com.example.shdemo.service;
 
 import com.example.shdemo.domain.Alcohol;
+import com.example.shdemo.domain.Contact;
 import com.example.shdemo.domain.Producer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,12 +28,14 @@ public class DistributionManagerTest {
     private final String COMPANY_NAME_1 = "Test company";
     private final String CODE_1 = "c0de";
 
-    private final String ALCOHOL_NAME_1 = "Special";
+    private final String ALCOHOL_NAME_1 = "Komes";
     private final String ALCOHOL_TYPE_1 = "piwo";
     private final float ALCOHOL_VOLT_1 = 3.52f;
     private final boolean ALCOHOL_AVAILABILITY_1 = true;
     private final int ALCOHOL_YEAR_OF_PRODUCTION_1 = 1990;
 
+    private final String CONTACT_EMAIL_1 = "example@company.com";
+    private final String CONTACT_PHONE_NUMBER_1 = "112456789";
 
     @Test
     public void distributionManagerTest() {
@@ -147,5 +150,33 @@ public class DistributionManagerTest {
         assertTrue(l.get(0).getAvailability());
     }
 
+    @Test
+    public void addContactToProducerTest(){
+        Producer p = new Producer();
+        p.setCode(CODE_1);
+        p.setCompanyName(COMPANY_NAME_1);
 
+        Contact c = new Contact();
+        c.setEmail(CONTACT_EMAIL_1);
+        c.setPhoneNumber(CONTACT_PHONE_NUMBER_1);
+
+        for (Producer producer: distributionManager.getAllProducers()) {
+            if (producer.getCode().equals(CODE_1))
+                distributionManager.deleteProducer(producer);
+        }
+        for (Producer producer: distributionManager.getAllProducers()) {
+            if (producer.getCode().equals(CODE_1))
+                distributionManager.deleteProducer(producer);
+        }
+
+        distributionManager.addNewContact(c);
+        distributionManager.addProducer(p);
+
+        p.setContact(c);
+
+        Contact retrived = distributionManager.getProducerContact(p);
+
+        assertEquals(retrived.getEmail(), c.getEmail());
+        assertEquals(retrived.getPhoneNumber(), c.getPhoneNumber());
+    }
 }
