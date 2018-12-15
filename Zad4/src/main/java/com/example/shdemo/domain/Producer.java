@@ -18,7 +18,6 @@ public class Producer {
 	private String code = "";
 	private Date registrationDate = new Date();
 
-    @OneToOne(mappedBy = "producer")
 	private Contact contact;
 
 	private List<Alcohol> alcohols = new ArrayList<Alcohol>();
@@ -52,8 +51,8 @@ public class Producer {
 		this.alcohols = alcohols;
 	}
 
+    @OneToOne(fetch = FetchType.LAZY)
     public Contact getContact() { return contact; }
-
     public void setContact(Contact contact) { this.contact = contact; }
 
 
