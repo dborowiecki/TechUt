@@ -18,6 +18,9 @@ public class Producer {
 	private String code = "";
 	private Date registrationDate = new Date();
 
+    @OneToOne(mappedBy = "producer")
+	private Contact contact;
+
 	private List<Alcohol> alcohols = new ArrayList<Alcohol>();
 
 	@Id
@@ -48,4 +51,10 @@ public class Producer {
 	public void setAlcohols(List<Alcohol> alcohols) {
 		this.alcohols = alcohols;
 	}
+
+    public Contact getContact() { return contact; }
+
+    public void setContact(Contact contact) { this.contact = contact; }
+
+
 }

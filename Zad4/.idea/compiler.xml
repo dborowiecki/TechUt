@@ -9,8 +9,5 @@
         <module name="shdemo" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="shdemo" target="1.6" />
-    </bytecodeTargetLevel>
   </component>
 </project>
