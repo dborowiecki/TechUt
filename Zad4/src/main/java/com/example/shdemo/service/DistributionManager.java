@@ -1,6 +1,7 @@
 package com.example.shdemo.service;
 
 import com.example.shdemo.domain.Alcohol;
+import com.example.shdemo.domain.Contact;
 import com.example.shdemo.domain.Producer;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,9 +56,9 @@ public class DistributionManager implements DistributionManagerI{
                 .setString("code", code).uniqueResult();
     }
     @Override
-    public Long addNewAlcohol(Alcohol alcohol){
+    public void addNewAlcohol(Alcohol alcohol){
         alcohol.setId(null);
-        return (Long) sessionFactory.getCurrentSession().save(alcohol);
+        sessionFactory.getCurrentSession().save(alcohol);
     }
     @Override
     public void deleteAlcohol(Alcohol alcohol){
@@ -95,5 +96,23 @@ public class DistributionManager implements DistributionManagerI{
         alcohol.setAvailability(true);
         producer.getAlcohols().add(alcohol);
     }
+    @Override
+    public void addNewContact(Contact contact){
+        contact.setId(null);
+        sessionFactory.getCurrentSession().save(contact);
+    }
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Contact> getAllContacts(){
+        return sessionFactory.getCurrentSession().getNamedQuery("c.all")
+                .list();
+    }
+    @Override
+    public Contact getProducerContact(Producer producer){
+        producer = (Producer) sessionFactory.getCurrentSession().get(Producer.class,
+                producer.getId());
 
+        Contact contact = producer.getContact();
+        return contact;
+    }
 }

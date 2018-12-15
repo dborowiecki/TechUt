@@ -1,6 +1,7 @@
 package com.example.shdemo.service;
 
 import com.example.shdemo.domain.Alcohol;
+import com.example.shdemo.domain.Contact;
 import com.example.shdemo.domain.Producer;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public interface DistributionManagerI {
 	void deleteProducer(Producer producer);
 	Producer findProducerByCode(String code);
 	
-	Long addNewAlcohol(Alcohol alcohol);
+	void addNewAlcohol(Alcohol alcohol);
 	List<Alcohol> getAvailableAlcohols();
 	Alcohol findAlcoholById(Long id);
 
@@ -20,4 +21,7 @@ public interface DistributionManagerI {
 	void removeProducerAlcohols(Long producerId, Long alcoholId);
 	void deleteAlcohol(Alcohol a);
 
+	void addNewContact(Contact contact);
+	List<Contact> getAllContacts();
+	Contact getProducerContact(Producer producer);
 }
