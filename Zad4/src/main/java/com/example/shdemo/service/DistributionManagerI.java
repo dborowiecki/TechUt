@@ -25,6 +25,7 @@ public interface DistributionManagerI {
 	void addNewContact(Contact contact);
 	List<Contact> getAllContacts();
 	Contact getProducerContact(Producer producer);
+	void deleteContact(Contact contact);
 
 	void addOwner(Owner owner);
 	List<Owner> getAllOwners();

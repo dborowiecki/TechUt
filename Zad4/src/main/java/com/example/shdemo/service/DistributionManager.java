@@ -63,7 +63,7 @@ public class DistributionManager implements DistributionManagerI{
     }
     @Override
     public void deleteAlcohol(Alcohol alcohol){
-        alcohol = (Alcohol) sessionFactory.getCurrentSession().get(Producer.class,
+        alcohol = (Alcohol) sessionFactory.getCurrentSession().get(Alcohol.class,
                 alcohol.getId());
 
         sessionFactory.getCurrentSession().delete(alcohol);
@@ -105,7 +105,7 @@ public class DistributionManager implements DistributionManagerI{
     @Override
     @SuppressWarnings("unchecked")
     public List<Contact> getAllContacts(){
-        return sessionFactory.getCurrentSession().getNamedQuery("c.all")
+        return sessionFactory.getCurrentSession().getNamedQuery("contact.all")
                 .list();
     }
     @Override
@@ -117,6 +117,13 @@ public class DistributionManager implements DistributionManagerI{
         return contact;
     }
     @Override
+    public void deleteContact(Contact contact){
+        contact = (Contact) sessionFactory.getCurrentSession().get(Contact.class,
+                contact.getId());
+
+        sessionFactory.getCurrentSession().delete(contact);
+    }
+    @Override
     public void addOwner(Owner owner){
         owner.setId(null);
         sessionFactory.getCurrentSession().save(owner);
@@ -124,12 +131,12 @@ public class DistributionManager implements DistributionManagerI{
     @Override
     @SuppressWarnings("unchecked")
     public List<Owner> getAllOwners(){
-        return sessionFactory.getCurrentSession().getNamedQuery("o.all")
+        return sessionFactory.getCurrentSession().getNamedQuery("owner.all")
                 .list();
     }
     @Override
     public void deleteOwner(Owner owner){
-        owner = (Owner) sessionFactory.getCurrentSession().get(Producer.class,
+        owner = (Owner) sessionFactory.getCurrentSession().get(Owner.class,
                 owner.getId());
 
         sessionFactory.getCurrentSession().delete(owner);
