@@ -22,6 +22,8 @@ public class Producer {
 
 	private List<Alcohol> alcohols = new ArrayList<Alcohol>();
 
+	private List<Owner> owners = new ArrayList<Owner>();
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() { return id; }
@@ -55,5 +57,8 @@ public class Producer {
     public Contact getContact() { return contact; }
     public void setContact(Contact contact) { this.contact = contact; }
 
+ 	@ManyToMany(cascade =  CascadeType.ALL)
+	public List<Owner> getOwners(){ return this.owners;}
+	public void setOwners(List<Owner> owners) { this.owners = owners;}
 
 }
