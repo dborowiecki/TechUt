@@ -5,8 +5,7 @@ import javax.persistence.*;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "person.all", query = "Select p from Person p"),
-        @NamedQuery(name = "person.byPin", query = "Select p from Person p where p.pin = :pin")
+        @NamedQuery(name = "owner.all", query = "Select o from Owner o")
 })
 public class Owner {
     private Long id;

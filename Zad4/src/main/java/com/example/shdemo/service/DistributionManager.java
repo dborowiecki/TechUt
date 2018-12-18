@@ -2,6 +2,7 @@ package com.example.shdemo.service;
 
 import com.example.shdemo.domain.Alcohol;
 import com.example.shdemo.domain.Contact;
+import com.example.shdemo.domain.Owner;
 import com.example.shdemo.domain.Producer;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,4 +116,23 @@ public class DistributionManager implements DistributionManagerI{
         Contact contact = producer.getContact();
         return contact;
     }
+    @Override
+    public void addOwner(Owner owner){
+        owner.setId(null);
+        sessionFactory.getCurrentSession().save(owner);
+    }
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Owner> getAllOwners(){
+        return sessionFactory.getCurrentSession().getNamedQuery("o.all")
+                .list();
+    }
+    @Override
+    public void deleteOwner(Owner owner){
+        owner = (Owner) sessionFactory.getCurrentSession().get(Producer.class,
+                owner.getId());
+
+        sessionFactory.getCurrentSession().delete(owner);
+    }
+
 }

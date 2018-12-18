@@ -2,6 +2,7 @@ package com.example.shdemo.service;
 
 import com.example.shdemo.domain.Alcohol;
 import com.example.shdemo.domain.Contact;
+import com.example.shdemo.domain.Owner;
 import com.example.shdemo.domain.Producer;
 
 import java.util.List;
@@ -24,4 +25,9 @@ public interface DistributionManagerI {
 	void addNewContact(Contact contact);
 	List<Contact> getAllContacts();
 	Contact getProducerContact(Producer producer);
+
+	void addOwner(Owner owner);
+	List<Owner> getAllOwners();
+	void deleteOwner(Owner owner);
+
 }
