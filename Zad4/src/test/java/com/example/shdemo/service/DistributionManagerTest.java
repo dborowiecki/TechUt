@@ -2,6 +2,7 @@ package com.example.shdemo.service;
 
 import com.example.shdemo.domain.Alcohol;
 import com.example.shdemo.domain.Contact;
+import com.example.shdemo.domain.Owner;
 import com.example.shdemo.domain.Producer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,6 +37,9 @@ public class DistributionManagerTest {
 
     private final String CONTACT_EMAIL_1 = "example@company.com";
     private final String CONTACT_PHONE_NUMBER_1 = "112456789";
+
+    private final String OWNER_NAME_1 = "John";
+    private final String OWNER_SECOND_NAME_1 = "Doe";
 
     @Test
     public void distributionManagerTest() {
@@ -164,9 +168,9 @@ public class DistributionManagerTest {
             if (producer.getCode().equals(CODE_1))
                 distributionManager.deleteProducer(producer);
         }
-        for (Producer producer: distributionManager.getAllProducers()) {
-            if (producer.getCode().equals(CODE_1))
-                distributionManager.deleteProducer(producer);
+        for (Contact contact: distributionManager.getAllContacts()) {
+            if (contact.getEmail().equals(CONTACT_EMAIL_1))
+                distributionManager.deleteContact(contact);
         }
 
         distributionManager.addNewContact(c);
@@ -178,5 +182,56 @@ public class DistributionManagerTest {
 
         assertEquals(retrived.getEmail(), c.getEmail());
         assertEquals(retrived.getPhoneNumber(), c.getPhoneNumber());
+    }
+
+    @Test
+    public void addOwnerTest(){
+        Owner o = new Owner();
+        o.setFirstName(OWNER_NAME_1);
+        o.setLastName(OWNER_SECOND_NAME_1);
+
+        for (Owner owner: distributionManager.getAllOwners()) {
+            if (owner.getFirstName().equals(OWNER_NAME_1))
+                distributionManager.deleteOwner(owner);
+        }
+
+        distributionManager.addOwner(o);
+
+        List<Owner> retrived = distributionManager.getAllOwners();
+        Owner retrivedOwner = null;
+        for (Owner r: retrived) {
+            if(r.getFirstName() == OWNER_NAME_1 && r.getLastName() == OWNER_SECOND_NAME_1)
+                retrivedOwner = r;
+        }
+        assertEquals(retrivedOwner, o);
+    }
+
+    @Test
+    public void addProducerOwnerTest(){
+        Owner o = new Owner();
+        o.setFirstName(OWNER_NAME_1);
+        o.setLastName(OWNER_SECOND_NAME_1);
+
+        Producer p = new Producer();
+        p.setCode(CODE_1);
+        p.setCompanyName(COMPANY_NAME_1);
+
+        for (Owner owner: distributionManager.getAllOwners()) {
+            if (owner.getFirstName().equals(OWNER_NAME_1))
+                distributionManager.deleteOwner(owner);
+        }
+
+        for (Producer producer: distributionManager.getAllProducers()) {
+            if (producer.getCode().equals(CODE_1))
+                distributionManager.deleteProducer(producer);
+        }
+
+        distributionManager.addOwner(o);
+        distributionManager.addProducer(p);
+
+        p.setOwners(distributionManager.getAllOwners());
+        List<Owner> retrivedProducerOwners = distributionManager.getAllOwners();
+
+        assertEquals(retrivedProducerOwners.get(0), o);
     }
 }
