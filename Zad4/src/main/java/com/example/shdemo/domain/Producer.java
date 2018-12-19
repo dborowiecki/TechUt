@@ -53,11 +53,11 @@ public class Producer {
 		this.alcohols = alcohols;
 	}
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade =  CascadeType.ALL, fetch = FetchType.LAZY)
     public Contact getContact() { return contact; }
     public void setContact(Contact contact) { this.contact = contact; }
 
- 	@ManyToMany(cascade =  CascadeType.ALL)
+ 	@ManyToMany(cascade =  CascadeType.ALL, fetch = FetchType.LAZY)
 	public List<Owner> getOwners(){ return this.owners;}
 	public void setOwners(List<Owner> owners) { this.owners = owners;}
 
