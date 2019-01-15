@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @NamedQueries({
-		@NamedQuery(name = "alcohol.availability", query = "Select c from Alcohol c where c.availability = true")
+		@NamedQuery(name = "alcohol.availability", query = "Select a from Alcohol a where a.availability = true")
 })
 public class Alcohol {
 
