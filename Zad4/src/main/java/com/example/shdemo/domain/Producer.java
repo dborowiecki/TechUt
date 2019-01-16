@@ -44,7 +44,7 @@ public class Producer {
 		this.registrationDate = registrationDate;
 	}
 
-	// Be careful here, both with lazy and eager fetch type
+
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	public List<Alcohol> getAlcohols() {
 		return alcohols;

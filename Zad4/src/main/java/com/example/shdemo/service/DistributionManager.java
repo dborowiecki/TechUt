@@ -43,7 +43,7 @@ public class DistributionManager implements DistributionManagerI{
         producer = (Producer) sessionFactory.getCurrentSession().get(Producer.class,
                 producer.getId());
 
-        // lazy loading here
+
         for (Alcohol alcohol: producer.getAlcohols()) {
             alcohol.setAvailability(false);
             sessionFactory.getCurrentSession().update(alcohol);
