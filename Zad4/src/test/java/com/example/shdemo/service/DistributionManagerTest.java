@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -226,10 +227,10 @@ public class DistributionManagerTest {
         distributionManager.addProducer(p);
         distributionManager.addProducer(p2);
 
-        List<Producer> receivedProducer = distributionManager.getAllProducers();
+        List<Producer> receivedProducer = distributionManager.getProducerByRegistrationDate();
 
-        assertEquals(receivedProducer.get(0), p);
-        assertEquals(receivedProducer.get(1), p2);
+        assertEquals(receivedProducer.get(0), p2);
+        assertEquals(receivedProducer.get(1), p);
     }
 
     @Test(expected = ConstraintViolationException.class)
@@ -416,5 +417,159 @@ public class DistributionManagerTest {
         List<Owner> receivedProducerOwners = distributionManager.getAllOwners();
 
         assertEquals(receivedProducerOwners.get(0), o);
+    }
+
+    @Test
+    public void deleteAlcoholTest(){
+        Alcohol a = new Alcohol();
+        a.setName(ALCOHOL_NAME_1);
+        a.setType(ALCOHOL_TYPE_1);
+        a.setVolt(ALCOHOL_VOLT_1);
+        a.setAvailability(ALCOHOL_AVAILABILITY_1);
+        a.setYearOfProduction(ALCOHOL_YEAR_OF_PRODUCTION_1);
+
+        distributionManager.addNewAlcohol(a);
+        Long x = a.getId();
+        distributionManager.deleteAlcohol(a);
+
+        Alcohol received = distributionManager.findAlcoholById(x);
+
+        assertEquals(received, null);
+    }
+
+    @Test
+    public void deleteCascadeContact(){
+        Producer p = new Producer();
+        p.setCode(CODE_1);
+        p.setCompanyName(COMPANY_NAME_1);
+
+        Contact c = new Contact();
+        c.setEmail(CONTACT_EMAIL_1);
+        c.setPhoneNumber(CONTACT_PHONE_NUMBER_1);
+
+        distributionManager.addNewContact(c);
+        distributionManager.addProducer(p);
+
+        p.setContact(c);
+
+
+        distributionManager.deleteProducer(p);
+        List<Contact> contacts = distributionManager.getAllContacts();
+        Contact received = contacts.size() > 0 ? contacts.get(0) : null;
+
+        assertEquals(received, null);
+    }
+
+    @Test
+    public void deleteOwner(){
+        Owner o = new Owner();
+        o.setFirstName(OWNER_NAME_1);
+        o.setLastName(OWNER_SECOND_NAME_1);
+        distributionManager.addOwner(o);
+        distributionManager.deleteOwner(o);
+
+        List<Owner> received = distributionManager.getAllOwners();
+        Owner r = null;
+        for(Owner ow: received){
+             if(ow.getFirstName() == OWNER_NAME_1 && ow.getLastName() == OWNER_NAME_2)
+                 r = ow;
+        }
+        assertEquals(r, null);
+    }
+
+    @Test
+    public void deleteProducerTest(){
+        Producer p = new Producer();
+        p.setCode(CODE_1);
+        p.setCompanyName(COMPANY_NAME_1);
+
+        distributionManager.addProducer(p);
+
+        distributionManager.deleteProducer(p);
+        List<Producer> received = distributionManager.getAllProducers();
+        Producer r = null;
+        for(Producer prod: received){
+            if(prod.getCode() == CODE_1 && prod.getCompanyName() == COMPANY_NAME_1)
+                r = prod;
+        }
+        assertEquals(r, null);
+    }
+
+    @Test
+    public void checkDeletedProducerAlcoholsAviabilityTest(){
+        Producer p = new Producer();
+        p.setCode(CODE_1);
+        p.setCompanyName(COMPANY_NAME_1);
+
+        Alcohol a = new Alcohol();
+        a.setName(ALCOHOL_NAME_1);
+        a.setType(ALCOHOL_TYPE_1);
+        a.setVolt(ALCOHOL_VOLT_1);
+        a.setAvailability(ALCOHOL_AVAILABILITY_1);
+        a.setYearOfProduction(ALCOHOL_YEAR_OF_PRODUCTION_1);
+
+        distributionManager.addProducer(p);
+        distributionManager.addNewAlcohol(a);
+
+        List<Alcohol> received = distributionManager.getProducersAlcohols(p);
+        distributionManager.deleteProducer(p);
+        Producer r = null;
+        Boolean av = false;
+        for(Alcohol alcohol: received){
+            if(alcohol.getAvailability())
+                av = true;
+        }
+        assertFalse(av);
+    }
+
+    @Test
+    public void removeProducerAlcoholsTest(){
+        Alcohol a = new Alcohol();
+        a.setName(ALCOHOL_NAME_1);
+        a.setType(ALCOHOL_TYPE_1);
+        a.setVolt(ALCOHOL_VOLT_1);
+        a.setAvailability(ALCOHOL_AVAILABILITY_1);
+        a.setYearOfProduction(ALCOHOL_YEAR_OF_PRODUCTION_1);
+
+        Producer p = new Producer();
+        p.setCode(CODE_1);
+        p.setCompanyName(COMPANY_NAME_1);
+
+        distributionManager.addNewAlcohol(a);
+        distributionManager.addProducer(p);
+
+        List<Alcohol> prodAlc = new LinkedList<Alcohol>();
+        prodAlc.add(a);
+        p.setAlcohols(prodAlc);
+
+
+        distributionManager.removeProducerAlcohols(p.getId(), a.getId());
+        distributionManager.removeProducerAlcohols(p.getId(), a.getId());
+
+        List<Alcohol> prodReceivedAlcohol = distributionManager.getProducersAlcohols(p);
+        Alcohol alcInList = null;
+        for(Alcohol r: prodReceivedAlcohol){
+            if( r.getId() == a.getId())
+                alcInList = r;
+        }
+        assertEquals(alcInList, null);
+    }
+
+    @Test
+    public void deleteContactTest(){
+        Contact c = new Contact();
+        c.setEmail(CONTACT_EMAIL_1);
+        c.setPhoneNumber(CONTACT_PHONE_NUMBER_1);
+
+        distributionManager.addNewContact(c);
+
+        distributionManager.deleteContact(c);
+        List<Contact> received = distributionManager.getAllContacts();
+        Contact r = null;
+        for(Contact contact: received){
+            if(contact.getId() == c.getId())
+                r = contact;
+        }
+        assertEquals(r, null);
     }
 }

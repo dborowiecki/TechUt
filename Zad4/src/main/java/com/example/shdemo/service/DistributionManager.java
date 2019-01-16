@@ -107,7 +107,7 @@ public class DistributionManager implements DistributionManagerI{
         Alcohol alcohol = (Alcohol) sessionFactory.getCurrentSession()
                 .get(Alcohol.class, alcoholId);
         alcohol.setAvailability(true);
-        producer.getAlcohols().add(alcohol);
+        producer.getAlcohols().remove(alcohol);
     }
     @Override
     public void addNewContact(Contact contact){
