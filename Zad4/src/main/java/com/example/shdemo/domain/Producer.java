@@ -17,7 +17,6 @@ public class Producer {
 	private String companyName = "unknown";
 	private String code = "";
 	private Date registrationDate = new Date();
-
 	private Contact contact;
 
 	private List<Alcohol> alcohols = new ArrayList<Alcohol>();
@@ -43,7 +42,6 @@ public class Producer {
 	public void setRegistrationDate(Date registrationDate) {
 		this.registrationDate = registrationDate;
 	}
-
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	public List<Alcohol> getAlcohols() {

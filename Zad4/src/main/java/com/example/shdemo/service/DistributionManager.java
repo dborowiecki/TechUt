@@ -33,11 +33,6 @@ public class DistributionManager implements DistributionManagerI{
         sessionFactory.getCurrentSession().persist(producer);
     }
 
-    @SuppressWarnings("unchecked")
-    public List<Producer> getAllProducers(){
-        return sessionFactory.getCurrentSession().getNamedQuery("producer.all").list();
-    }
-
     @Override
     public void deleteProducer(Producer producer){
         producer = (Producer) sessionFactory.getCurrentSession().get(Producer.class,
@@ -50,6 +45,12 @@ public class DistributionManager implements DistributionManagerI{
         }
         sessionFactory.getCurrentSession().delete(producer);
     }
+
+    @SuppressWarnings("unchecked")
+    public List<Producer> getAllProducers(){
+        return sessionFactory.getCurrentSession().getNamedQuery("producer.all").list();
+    }
+
     @Override
     public Producer findProducerByCode(String code){
         return (Producer) sessionFactory.getCurrentSession()

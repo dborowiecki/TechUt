@@ -8,6 +8,7 @@ import javax.persistence.*;
         @NamedQuery(name = "owner.all", query = "Select o from Owner o")
 })
 public class Owner {
+
     private Long id;
 
     private String firstName;

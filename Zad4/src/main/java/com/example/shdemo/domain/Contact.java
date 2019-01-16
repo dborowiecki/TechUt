@@ -15,6 +15,7 @@ import javax.persistence.Id;
 public class Contact {
 
     private Long id;
+
     private String email;
     private String phoneNumber;
 

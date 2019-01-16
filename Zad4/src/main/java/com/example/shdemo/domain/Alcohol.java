@@ -9,6 +9,7 @@ import javax.persistence.*;
 public class Alcohol {
 
 	private Long id;
+
 	private String name;
 	private int productionYear;
 	private String type;
