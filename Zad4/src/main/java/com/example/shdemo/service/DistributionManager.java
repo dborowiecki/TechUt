@@ -100,7 +100,9 @@ public class DistributionManager implements DistributionManagerI{
         List<Producer> sortedProducers=(List<Producer>)criteria.list();
         return sortedProducers;
     }
+    
     @Override
+    @Transactional
     public void removeProducerAlcohols(Long producerId, Long alcoholId){
         Producer producer = (Producer) sessionFactory.getCurrentSession().get(
                 Producer.class, producerId);
