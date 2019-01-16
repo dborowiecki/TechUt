@@ -4,7 +4,9 @@ import com.example.shdemo.domain.Alcohol;
 import com.example.shdemo.domain.Contact;
 import com.example.shdemo.domain.Owner;
 import com.example.shdemo.domain.Producer;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -88,6 +90,15 @@ public class DistributionManager implements DistributionManagerI{
 
         List<Alcohol> alcohols = new ArrayList<Alcohol>(producer.getAlcohols());
         return alcohols;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Producer> getProducerByRegistrationDate(){
+        Criteria criteria=sessionFactory.getCurrentSession().createCriteria(Producer.class);
+        criteria.addOrder(Order.asc("registrationDate"));
+        List<Producer> sortedProducers=(List<Producer>)criteria.list();
+        return sortedProducers;
     }
     @Override
     public void removeProducerAlcohols(Long producerId, Long alcoholId){

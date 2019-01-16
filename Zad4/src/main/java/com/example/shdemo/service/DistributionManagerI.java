@@ -13,6 +13,7 @@ public interface DistributionManagerI {
 	List<Producer> getAllProducers();
 	void deleteProducer(Producer producer);
 	Producer findProducerByCode(String code);
+	List<Producer> getProducerByRegistrationDate();
 	
 	void addNewAlcohol(Alcohol alcohol);
 	List<Alcohol> getAvailableAlcohols();

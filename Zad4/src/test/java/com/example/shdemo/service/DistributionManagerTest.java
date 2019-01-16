@@ -14,6 +14,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -29,8 +30,10 @@ public class DistributionManagerTest {
 
     private final String COMPANY_NAME_1 = "Test company";
     private final String CODE_1 = "c0de";
+    private final Date REGISTRATION_DATE_1 = new Date("01/02/2009");
     private final String COMPANY_NAME_2 = "Second test company";
     private final String CODE_2 = "cod3";
+    private final Date REGISTRATION_DATE_2 = new Date("01/02/20010");
 
     private final String ALCOHOL_NAME_1 = "Komes";
     private final String ALCOHOL_NAME_2 = "Other name";
@@ -200,6 +203,33 @@ public class DistributionManagerTest {
         List<Producer> receivedProducer = distributionManager.getAllProducers();
 
         assertEquals(receivedProducer.size(), 2);
+    }
+
+    @Test
+    public void getProducersByRegistrationDateTest(){
+        Producer p = new Producer();
+        p.setCompanyName(COMPANY_NAME_1);
+        p.setCode(CODE_1);
+        p.setRegistrationDate(REGISTRATION_DATE_2);
+        Producer p2 = new Producer();
+        p2.setCompanyName(COMPANY_NAME_2);
+        p2.setCode(CODE_2);
+        p2.setRegistrationDate(REGISTRATION_DATE_1);
+
+        for (Producer producer: distributionManager.getAllProducers()) {
+            if (producer.getCode().equals(CODE_1) ||
+                    producer.getCode().equals(CODE_2)) {
+                distributionManager.deleteProducer(producer);
+            }
+        }
+
+        distributionManager.addProducer(p);
+        distributionManager.addProducer(p2);
+
+        List<Producer> receivedProducer = distributionManager.getAllProducers();
+
+        assertEquals(receivedProducer.get(0), p);
+        assertEquals(receivedProducer.get(1), p2);
     }
 
     @Test(expected = ConstraintViolationException.class)
