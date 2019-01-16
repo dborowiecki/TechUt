@@ -72,18 +72,18 @@ public class DistributionManagerTest {
 
         distributionManager.addNewAlcohol(a);
 
-        Alcohol recived = new Alcohol();
+        Alcohol received = new Alcohol();
 
         alcohols = distributionManager.getAvailableAlcohols();
         for (Alcohol alcohol: alcohols) {
             if (alcohol.getName().equals(ALCOHOL_NAME_1)) {
-                recived = alcohol;
+                received = alcohol;
             }
         }
-        assertEquals(ALCOHOL_NAME_1, recived.getName());
-        assertEquals(ALCOHOL_TYPE_1, recived.getType());
-        assertEquals(ALCOHOL_AVAILABILITY_1, recived.getAvailability());
-        assertEquals(ALCOHOL_YEAR_OF_PRODUCTION_1, recived.getYearOfProduction());
+        assertEquals(ALCOHOL_NAME_1, received.getName());
+        assertEquals(ALCOHOL_TYPE_1, received.getType());
+        assertEquals(ALCOHOL_AVAILABILITY_1, received.getAvailability());
+        assertEquals(ALCOHOL_YEAR_OF_PRODUCTION_1, received.getYearOfProduction());
     }
 
     @Test
@@ -100,16 +100,16 @@ public class DistributionManagerTest {
         List<Alcohol> alcohols = distributionManager.getAvailableAlcohols();
 
 
-        Alcohol recived = new Alcohol();
+        Alcohol received = new Alcohol();
         for (Alcohol alcohol: alcohols) {
             if (alcohol.getName().equals(ALCOHOL_NAME_1)) {
-                recived = alcohol;
+                received = alcohol;
             }
         }
 
         a.setName(ALCOHOL_NAME_2);
 
-        assertEquals(recived.getName(), ALCOHOL_NAME_2);
+        assertEquals(received.getName(), ALCOHOL_NAME_2);
         assertNotSame(ALCOHOL_NAME_1, ALCOHOL_NAME_2);
     }
 
@@ -131,22 +131,22 @@ public class DistributionManagerTest {
 
         distributionManager.addNewAlcohol(a);
         Long alcoholId = a.getId();
-        Alcohol recived = new Alcohol();
+        Alcohol received = new Alcohol();
 
         alcohols = distributionManager.getAvailableAlcohols();
         for (Alcohol alcohol: alcohols) {
             if (alcohol.getName().equals(ALCOHOL_NAME_1)) {
-                recived = alcohol;
+                received = alcohol;
             }
         }
-        assertEquals(alcoholId, recived.getId());
+        assertEquals(alcoholId, received.getId());
     }
 
     @Test
     public void addProducentTest() {
-        List<Producer> recivedProducers = distributionManager.getAllProducers();
+        List<Producer> receivedProducers = distributionManager.getAllProducers();
 
-        for (Producer producer: recivedProducers) {
+        for (Producer producer: receivedProducers) {
             if (producer.getCode().equals(CODE_1)) {
                 distributionManager.deleteProducer(producer);
             }
@@ -158,10 +158,10 @@ public class DistributionManagerTest {
 
         distributionManager.addProducer(producer);
 
-        Producer recivedProducer = distributionManager.findProducerByCode(CODE_1);
+        Producer receivedProducer = distributionManager.findProducerByCode(CODE_1);
 
-        assertEquals(COMPANY_NAME_1, recivedProducer.getCompanyName());
-        assertEquals(CODE_1, recivedProducer.getCode());
+        assertEquals(COMPANY_NAME_1, receivedProducer.getCompanyName());
+        assertEquals(CODE_1, receivedProducer.getCode());
     }
 
     @Test
@@ -172,11 +172,11 @@ public class DistributionManagerTest {
 
         distributionManager.addProducer(producer);
 
-        Producer recivedProducer = distributionManager.findProducerByCode(CODE_1);
+        Producer receivedProducer = distributionManager.findProducerByCode(CODE_1);
 
         producer.setCompanyName(COMPANY_NAME_2);
 
-        assertEquals(recivedProducer.getCompanyName(), COMPANY_NAME_2);
+        assertEquals(receivedProducer.getCompanyName(), COMPANY_NAME_2);
     }
 
     @Test
@@ -197,9 +197,9 @@ public class DistributionManagerTest {
         distributionManager.addProducer(p);
         distributionManager.addProducer(p2);
 
-        List<Producer> recivedProducer = distributionManager.getAllProducers();
+        List<Producer> receivedProducer = distributionManager.getAllProducers();
 
-        assertEquals(recivedProducer.size(), 2);
+        assertEquals(receivedProducer.size(), 2);
     }
 
     @Test(expected = ConstraintViolationException.class)
@@ -240,9 +240,9 @@ public class DistributionManagerTest {
         List<Alcohol> l = new ArrayList<Alcohol>();
         l.add(a);
         p.setAlcohols(l);
-        List<Alcohol> recived = distributionManager.getProducersAlcohols(p);
+        List<Alcohol> received = distributionManager.getProducersAlcohols(p);
 
-        assertEquals(l.get(0), recived.get(0));
+        assertEquals(l.get(0), received.get(0));
         assertTrue(l.get(0).getAvailability());
     }
 
@@ -263,9 +263,9 @@ public class DistributionManagerTest {
         distributionManager.addNewContact(c);
         distributionManager.addNewContact(c2);
 
-        List<Contact> recived = distributionManager.getAllContacts();
+        List<Contact> received = distributionManager.getAllContacts();
 
-        assertEquals(recived.size(), 2);
+        assertEquals(received.size(), 2);
     }
 
     @Test
@@ -292,10 +292,10 @@ public class DistributionManagerTest {
 
         p.setContact(c);
 
-        Contact recived = distributionManager.getProducerContact(p);
+        Contact received = distributionManager.getProducerContact(p);
 
-        assertEquals(recived.getEmail(), c.getEmail());
-        assertEquals(recived.getPhoneNumber(), c.getPhoneNumber());
+        assertEquals(received.getEmail(), c.getEmail());
+        assertEquals(received.getPhoneNumber(), c.getPhoneNumber());
     }
 
     @Test
@@ -311,13 +311,13 @@ public class DistributionManagerTest {
 
         distributionManager.addOwner(o);
 
-        List<Owner> recived = distributionManager.getAllOwners();
-        Owner recivedOwner = null;
-        for (Owner r: recived) {
+        List<Owner> received = distributionManager.getAllOwners();
+        Owner receivedOwner = null;
+        for (Owner r: received) {
             if(r.getFirstName() == OWNER_NAME_1 && r.getLastName() == OWNER_SECOND_NAME_1)
-                recivedOwner = r;
+                receivedOwner = r;
         }
-        assertEquals(recivedOwner, o);
+        assertEquals(receivedOwner, o);
     }
 
     @Test
@@ -328,15 +328,15 @@ public class DistributionManagerTest {
 
         distributionManager.addOwner(o);
 
-        List<Owner> recived = distributionManager.getAllOwners();
-        Owner recivedOwner = null;
-        for (Owner r: recived) {
+        List<Owner> received = distributionManager.getAllOwners();
+        Owner receivedOwner = null;
+        for (Owner r: received) {
             if(r.getFirstName() == OWNER_NAME_1 && r.getLastName() == OWNER_SECOND_NAME_1)
-                recivedOwner = r;
+                receivedOwner = r;
         }
         o.setFirstName(OWNER_NAME_2);
 
-        assertEquals(recivedOwner.getFirstName(), OWNER_NAME_2);
+        assertEquals(receivedOwner.getFirstName(), OWNER_NAME_2);
     }
     @Test
     public void getAllOwnersTest(){
@@ -354,9 +354,9 @@ public class DistributionManagerTest {
 
         distributionManager.addOwner(o);
         distributionManager.addOwner(o2);
-        List<Owner> recived = distributionManager.getAllOwners();
+        List<Owner> received = distributionManager.getAllOwners();
 
-        assertEquals(recived.size(), 2);
+        assertEquals(received.size(), 2);
     }
 
     @Test
@@ -383,8 +383,8 @@ public class DistributionManagerTest {
         distributionManager.addProducer(p);
 
         p.setOwners(distributionManager.getAllOwners());
-        List<Owner> recivedProducerOwners = distributionManager.getAllOwners();
+        List<Owner> receivedProducerOwners = distributionManager.getAllOwners();
 
-        assertEquals(recivedProducerOwners.get(0), o);
+        assertEquals(receivedProducerOwners.get(0), o);
     }
 }
