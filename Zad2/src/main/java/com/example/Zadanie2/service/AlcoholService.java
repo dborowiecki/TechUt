@@ -25,8 +25,7 @@ public class AlcoholService {
                                         +"producer varchar(20),"
                                         +"production_year integer, "
                                         +"type varchar(30), volt float)";
-
-
+    
     private PreparedStatement addAlcoholStmt;
     private PreparedStatement deleteAllAlcoholsStmt;
     private PreparedStatement getAllAlcoholsStmt;
@@ -44,9 +43,9 @@ public class AlcoholService {
                     break;
                 }
             }
-
-            if (!tableExists)
+            if (!tableExists) {
                 statement.executeUpdate(createTableAlcohol);
+            }
 
             addAlcoholStmt        = connection.prepareStatement("INSERT INTO Alcohol (name, producer, production_year, type, volt) VALUES (?, ?, ?, ?, ?)");
             deleteAllAlcoholsStmt = connection.prepareStatement("DELETE FROM Alcohol");
@@ -66,7 +65,7 @@ public class AlcoholService {
         }
     }
 
-    //@Override
+
     public int addAlcohol(Alcohol Alcohol) {
         int count = 0;
         try {
@@ -84,7 +83,7 @@ public class AlcoholService {
         return count;
     }
 
-    //@Override
+
     public List<Alcohol> getAllAlcohols() {
         List<Alcohol> Alcohols = new ArrayList<Alcohol>();
 
@@ -108,7 +107,7 @@ public class AlcoholService {
         return Alcohols;
     }
 
-    //@Override
+
     public void addAllAlcohols(List<Alcohol> Alcohols) {
 
         try {
@@ -129,7 +128,6 @@ public class AlcoholService {
                 connection.rollback();
             } catch (SQLException e) {
                 e.printStackTrace();
-                //!!!! ALARM
             }
         }
     }
