@@ -25,7 +25,7 @@ public class AlcoholService {
                                         +"producer varchar(20),"
                                         +"production_year integer, "
                                         +"type varchar(30), volt float)";
-    
+
     private PreparedStatement addAlcoholStmt;
     private PreparedStatement deleteAllAlcoholsStmt;
     private PreparedStatement getAllAlcoholsStmt;
