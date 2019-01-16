@@ -59,11 +59,13 @@ public class DistributionManager implements DistributionManagerI{
                 .getNamedQuery("producer.byCode")
                 .setString("code", code).uniqueResult();
     }
+
     @Override
     public void addNewAlcohol(Alcohol alcohol){
         alcohol.setId(null);
         sessionFactory.getCurrentSession().save(alcohol);
     }
+
     @Override
     public void deleteAlcohol(Alcohol alcohol){
         alcohol = (Alcohol) sessionFactory.getCurrentSession().get(Alcohol.class,
@@ -79,10 +81,12 @@ public class DistributionManager implements DistributionManagerI{
         return sessionFactory.getCurrentSession().getNamedQuery("alcohol.availability")
                 .list();
     }
+
     @Override
     public Alcohol findAlcoholById(Long id){
         return (Alcohol) sessionFactory.getCurrentSession().get(Alcohol.class, id);
     }
+
     @Override
     public List<Alcohol> getProducersAlcohols(Producer producer){
         producer = (Producer) sessionFactory.getCurrentSession().get(Producer.class,
@@ -100,7 +104,7 @@ public class DistributionManager implements DistributionManagerI{
         List<Producer> sortedProducers=(List<Producer>)criteria.list();
         return sortedProducers;
     }
-    
+
     @Override
     @Transactional
     public void removeProducerAlcohols(Long producerId, Long alcoholId){
@@ -111,17 +115,20 @@ public class DistributionManager implements DistributionManagerI{
         alcohol.setAvailability(true);
         producer.getAlcohols().remove(alcohol);
     }
+
     @Override
     public void addNewContact(Contact contact){
         contact.setId(null);
         sessionFactory.getCurrentSession().save(contact);
     }
+
     @Override
     @SuppressWarnings("unchecked")
     public List<Contact> getAllContacts(){
         return sessionFactory.getCurrentSession().getNamedQuery("contact.all")
                 .list();
     }
+
     @Override
     public Contact getProducerContact(Producer producer){
         producer = (Producer) sessionFactory.getCurrentSession().get(Producer.class,
@@ -130,6 +137,7 @@ public class DistributionManager implements DistributionManagerI{
         Contact contact = producer.getContact();
         return contact;
     }
+
     @Override
     public void deleteContact(Contact contact){
         contact = (Contact) sessionFactory.getCurrentSession().get(Contact.class,
@@ -137,17 +145,20 @@ public class DistributionManager implements DistributionManagerI{
 
         sessionFactory.getCurrentSession().delete(contact);
     }
+
     @Override
     public void addOwner(Owner owner){
         owner.setId(null);
         sessionFactory.getCurrentSession().save(owner);
     }
+
     @Override
     @SuppressWarnings("unchecked")
     public List<Owner> getAllOwners(){
         return sessionFactory.getCurrentSession().getNamedQuery("owner.all")
                 .list();
     }
+    
     @Override
     public void deleteOwner(Owner owner){
         owner = (Owner) sessionFactory.getCurrentSession().get(Owner.class,
