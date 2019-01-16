@@ -112,6 +112,7 @@ public class AlcoholService {
 
         try {
             connection.setAutoCommit(false);
+
             for (Alcohol Alcohol : Alcohols) {
                 addAlcoholStmt.setString(1, Alcohol.getName());
                 addAlcoholStmt.setString(2, Alcohol.getProducer());
@@ -120,10 +121,10 @@ public class AlcoholService {
                 addAlcoholStmt.setFloat(5, Alcohol.getVolt());
                 addAlcoholStmt.executeUpdate();
             }
+
             connection.commit();
 
         } catch (SQLException exception) {
-
             try {
                 connection.rollback();
             } catch (SQLException e) {
